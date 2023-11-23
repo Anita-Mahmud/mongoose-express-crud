@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TAddress, TFullName, TOrders, TUser } from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../app/config';
 
 const fullNameSchema = new Schema<TFullName>({
     firstName:{
@@ -54,6 +56,7 @@ const userSchema = new Schema<TUser>({
   password:{
     type: String,
     required: [true, 'Password is required'],
+    select: false,
 },
   fullName: {
     type: fullNameSchema,
@@ -87,9 +90,16 @@ const userSchema = new Schema<TUser>({
 },
   orders: [{
     type: ordersSchema,
-    required: [true, 'Orders is required']
     
 }]
 });
+
+// password hashing
+userSchema.pre('save',async function(next) {
+    const user = this;
+    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
+    next();
+});
+
 
 export const User = model<TUser>('User',userSchema)
