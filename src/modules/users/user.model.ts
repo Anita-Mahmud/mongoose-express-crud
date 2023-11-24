@@ -1,19 +1,19 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
-import { Schema, model } from 'mongoose';
+
+import { Schema, model} from 'mongoose';
 import { TAddress, TFullName, TOrders, TUser } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../app/config';
 
 const fullNameSchema = new Schema<TFullName>({
-    firstName:{
-        type: String,
-        required: [true, 'First Name is required']
+    firstName: {
+      type: String,
+      required: [true, 'First Name is required'],
     },
-    lastName:{
-        type: String,
-        required: [true, 'Last Name is required']
+    lastName: {
+      type: String,
+      required: [true, 'Last Name is required'],
     }
-});
+  });
 
 const addressSchema = new Schema<TAddress>({
     street: {
@@ -57,11 +57,11 @@ const userSchema = new Schema<TUser>({
   password:{
     type: String,
     required: [true, 'Password is required'],
-    select: false,
 },
   fullName: {
     type: fullNameSchema,
     required: [true, 'Full Name is required'],
+    _id: false,
 },
   age: {
     type: Number,
@@ -85,15 +85,19 @@ const userSchema = new Schema<TUser>({
     }
   ],
   address:{
+    _id: false,
     type: addressSchema,
     required: [true, 'Address is required']
     
 },
   orders: [{
+    _id: false,
     type: ordersSchema,
     
-}]
+}],
 });
+
+
 
 // password hashing
 userSchema.pre('save',async function(next) {
@@ -101,6 +105,10 @@ userSchema.pre('save',async function(next) {
     user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
     next();
 });
+
+
+
+
 
 
 export const User = model<TUser>('User',userSchema)
