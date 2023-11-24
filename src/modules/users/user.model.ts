@@ -95,7 +95,10 @@ const userSchema = new Schema<TUser>({
     type: ordersSchema,
     
 }],
-});
+}
+);
+
+
 
 // static method
 userSchema.statics.isUserExists = async function (userId: number) {
@@ -109,10 +112,5 @@ userSchema.pre('save',async function(next) {
     user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
     next();
 });
-
-
-
-
-
 
 export const User = model<TUser,UserModel>('User',userSchema)
