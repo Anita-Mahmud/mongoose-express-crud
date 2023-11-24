@@ -45,15 +45,27 @@ const deleteUserFromDB = async (userId: number) => {
 };
 
 //Add New Product in Order
-const addProductInDB = async(userId: number, productData:TOrders)=>{
-    if (await User.isUserExists(userId)) {
-        const order = await User.findOneAndUpdate({userId},{$push:{orders: productData}})
-        return order;
-    }
-    else{
-        throw new Error("User does not exists");
-    }
-}
+const addProductInDB = async (userId: number, productData: TOrders) => {
+  if (await User.isUserExists(userId)) {
+    const order = await User.findOneAndUpdate(
+      { userId },
+      { $push: { orders: productData } }
+    );
+    return order;
+  } else {
+    throw new Error("User does not exists");
+  }
+};
+
+// Retrieve all orders for a specific user
+const getAllOrdersForUser = async (userId: number) => {
+  if (await User.isUserExists(userId)) {
+    const user = await User.findOne({ userId }).select("orders -_id");
+    return user;
+  } else {
+    throw new Error("User does not exists");
+  }
+};
 
 export const UserService = {
   createUserInDB,
@@ -61,5 +73,6 @@ export const UserService = {
   getSingleUserFromDB,
   updateUserInDB,
   deleteUserFromDB,
-  addProductInDB
+  addProductInDB,
+  getAllOrdersForUser
 };
