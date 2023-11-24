@@ -16,7 +16,11 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -33,7 +37,11 @@ const getUsers = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -51,7 +59,11 @@ const getSingleUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -69,7 +81,11 @@ const updateUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -86,7 +102,11 @@ const deleteUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -105,7 +125,11 @@ const addProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -123,7 +147,11 @@ const userProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };
@@ -143,7 +171,11 @@ const totalOrderPrice = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!"
+    }
     });
   }
 };

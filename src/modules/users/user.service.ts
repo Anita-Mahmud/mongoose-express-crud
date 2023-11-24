@@ -19,7 +19,7 @@ const getSingleUserFromDB = async (userId: number) => {
     const user = User.findOne({ userId }).select("-password -orders");
     return user;
   } else {
-    throw new Error("User does not exists");
+    throw new Error("User not found");
   }
 };
 //Update user information
@@ -31,7 +31,7 @@ const updateUserInDB = async (userId: number, user: TUser) => {
     }).select("-password");
     return updatedUser;
   } else {
-    throw new Error("User does not exists");
+    throw new Error("User not found");
   }
 };
 //Delete user
@@ -40,7 +40,7 @@ const deleteUserFromDB = async (userId: number) => {
     const user = await User.deleteOne({ userId });
     return user;
   } else {
-    throw new Error("User does not exists");
+    throw new Error("User not found");
   }
 };
 
@@ -53,7 +53,7 @@ const addProductInDB = async (userId: number, productData: TOrders) => {
     );
     return order;
   } else {
-    throw new Error("User does not exists");
+    throw new Error("User not found");
   }
 };
 
@@ -63,7 +63,7 @@ const getAllOrdersForUser = async (userId: number) => {
     const user = await User.findOne({ userId }).select("orders -_id");
     return user;
   } else {
-    throw new Error("User does not exists");
+    throw new Error("User not found");
   }
 };
 
@@ -86,7 +86,7 @@ const calculateTotalPrice = async (userId: number) => {
        }
     }
     else {
-        throw new Error("User does not exists");
+        throw new Error("User not found");
     }}
 
 export const UserService = {
