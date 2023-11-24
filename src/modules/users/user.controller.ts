@@ -16,7 +16,7 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "something went wrong",
+      message: error.message || "something went wrong",
     });
   }
 };
@@ -81,20 +81,42 @@ const deleteUser = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "User deleted successfully!",
-      data: result,
-      });
-      } catch (error) {
-        res.status(500).json({
-          success: false,
-          message: error.message || "something went wrong",
-          });
-          }
-          };
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "something went wrong",
+    });
+  }
+};
+
+// add product controller
+const addProduct = async (req: Request, res: Response) => {
+  try {
+    const productData = req.body;
+    const {userId} = req.params;
+    const result = await UserService.addProductInDB(userId, productData);
+    res.status(200).json({
+      success: true,
+      message: "Order created successfully!",
+      data: null,
+    });
+}catch (error) {
+  res.status(500).json({
+    success: false,
+    message: error.message || "something went wrong",
+  });
+}
+}
+
 
 export const UserController = {
   createUser,
   getUsers,
   getSingleUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  addProduct
 };
+
