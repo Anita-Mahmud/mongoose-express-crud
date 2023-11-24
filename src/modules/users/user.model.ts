@@ -1,6 +1,6 @@
 
 import { Schema, model} from 'mongoose';
-import { TAddress, TFullName, TOrders, TUser } from './user.interface';
+import { TAddress, TFullName, TOrders, TUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../app/config';
 
@@ -97,7 +97,11 @@ const userSchema = new Schema<TUser>({
 }],
 });
 
-
+// static method
+userSchema.statics.isUserExists = async function (userId: number) {
+  const existingUser = await User.findOne({ userId });
+  return existingUser;
+};
 
 // password hashing
 userSchema.pre('save',async function(next) {
@@ -111,4 +115,4 @@ userSchema.pre('save',async function(next) {
 
 
 
-export const User = model<TUser>('User',userSchema)
+export const User = model<TUser,UserModel>('User',userSchema)
