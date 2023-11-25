@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
 export type TFullName = {
@@ -32,5 +33,5 @@ export type TUser = {
 
 // static method
 export interface UserModel extends Model<TUser> {
-  isUserExists( userId: number): Promise<TUser | null>;
+  isUserExists( userId:string): Promise<TUser | null>;
 }

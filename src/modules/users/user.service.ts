@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TOrders, TUser } from "./user.interface";
 import { User } from "./user.model";
 
@@ -14,7 +17,7 @@ const getAllUsersFromDB = async () => {
 };
 
 //Retrieve a specific user by ID
-const getSingleUserFromDB = async (userId: number) => {
+const getSingleUserFromDB = async (userId: string) => {
   if (await User.isUserExists(userId)) {
     const user = User.findOne({ userId }).select("-password -orders -_id");
     return user;
@@ -24,18 +27,18 @@ const getSingleUserFromDB = async (userId: number) => {
 };
 
 //Update user information
-const updateUserInDB = async (userId: number, user: TUser) => {
+const updateUserInDB = async (userId: string, user: TUser) => {
   if (await User.isUserExists(userId)) {
     const updatedUser = await User.findOneAndUpdate({ userId }, user, {
       new: true,
-    }).select("-password");
+    }).select("-password -_id");
     return updatedUser;
   } else {
     throw new Error("User not found");
   }
 };
 //Delete user
-const deleteUserFromDB = async (userId: number) => {
+const deleteUserFromDB = async (userId: string) => {
   if (await User.isUserExists(userId)) {
     const user = await User.deleteOne({ userId });
     return user;
@@ -45,7 +48,7 @@ const deleteUserFromDB = async (userId: number) => {
 };
 
 //Add New Product in Order
-const addProductInDB = async (userId: number, productData: TOrders) => {
+const addProductInDB = async (userId: string, productData: TOrders) => {
   if (await User.isUserExists(userId)) {
     const order = await User.findOneAndUpdate(
       { userId },
@@ -58,7 +61,7 @@ const addProductInDB = async (userId: number, productData: TOrders) => {
 };
 
 // Retrieve all orders for a specific user
-const getAllOrdersForUser = async (userId: number) => {
+const getAllOrdersForUser = async (userId: string) => {
   if (await User.isUserExists(userId)) {
     const user = await User.findOne({userId }).select("orders -_id");
     return user?.orders;
@@ -68,19 +71,16 @@ const getAllOrdersForUser = async (userId: number) => {
 };
 
 //Calculate Total Price of Orders for a Specific User
-const calculateTotalPrice = async (userId: number) => {
+const calculateTotalPrice = async (userId: string) => {
   if (await User.isUserExists(userId)) {
     const user = await User.findOne({ userId });
 
-    if (user?.orders?.length > 0) {
       let total = 0;
       const totalPrice = user?.orders?.forEach((elem) => {
         total += elem.quantity * elem.price;
       });
       return total;
-    } else {
-      return "No products found";
-    }
+    
   } else {
     throw new Error("User not found");
   }

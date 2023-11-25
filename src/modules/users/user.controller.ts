@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { UserService } from "./user.service";
 import userValidationSchema from "./user.validation";
@@ -94,6 +96,7 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
+    // eslint-disable-next-line no-unused-vars
     const result = await UserService.deleteUserFromDB(userId);
     res.status(200).json({
       success: true,
@@ -117,6 +120,7 @@ const addProduct = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
     const { userId } = req.params;
+    // eslint-disable-next-line no-unused-vars
     const result = await UserService.addProductInDB(userId, productData);
     res.status(200).json({
       success: true,
