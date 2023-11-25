@@ -1,5 +1,6 @@
 This a CRUD operation api build with node.js, express, typescript and mongoose. In this user and order management is created, retrieved, updated and deleted and along with this operations, one can add products, retrived them and can calculate the total price.
-Besides, for validation Joi is used. 
+Besides, for validation Joi is used.
+For local server after http://localhost:5000 attach the mentioned routes.For example: to retrieve a specific user of id 1, go to http://localhost:5000/api/users/1
 For User management-
 1. Creating a user: when /api/users and method POST is hit, a user will be created with data of userId, username,password,fullName including firstName and lastName,age,email,isActive,array of hobbies, address 
 including street, city and country. In response the password field will be hidden
