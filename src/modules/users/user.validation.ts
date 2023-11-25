@@ -27,7 +27,7 @@ export const userValidationSchema = Joi.object({
     isActive: Joi.boolean().required().messages({'any.only':'Active/Inactive is required'}),
     hobbies: Joi.array().items(Joi.string()).required().messages({'any.only':'Hobby is required'}),
     address: addressValidationSchema.required().messages({'any.only':'Address is required'}),
-    orders: Joi.array().items(ordersValidationSchema.required()).optional()
+    orders: Joi.array().items(ordersValidationSchema).optional()
 });
 
 export default userValidationSchema;
