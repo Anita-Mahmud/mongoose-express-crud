@@ -6,6 +6,7 @@ import userValidationSchema from "./user.validation";
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
+    // validation using joi
     const { value } = userValidationSchema.validate(userData);
     const result = await UserService.createUserInDB(value);
     res.status(200).json({
@@ -13,13 +14,13 @@ const createUser = async (req: Request, res: Response) => {
       message: "User created successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message,
       error: {
         code: 404,
-        description: "User not found!"
+        description: error.details
     }
     });
   }
@@ -34,13 +35,13 @@ const getUsers = async (req: Request, res: Response) => {
       message: "Users fetched successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message,
       error: {
         code: 404,
-        description: "User not found!"
+        description: error.details
     }
     });
   }
@@ -56,13 +57,13 @@ const getSingleUser = async (req: Request, res: Response) => {
       message: "User fetched successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message || "User not found",
       error: {
         code: 404,
-        description: "User not found!"
+        description:error.details || "User not found!"
     }
     });
   }
@@ -78,13 +79,13 @@ const updateUser = async (req: Request, res: Response) => {
       message: "User updated successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message|| "User not found",
       error: {
         code: 404,
-        description: "User not found!"
+        description: error.details ||"User not found!"
     }
     });
   }
@@ -99,13 +100,13 @@ const deleteUser = async (req: Request, res: Response) => {
       message: "User deleted successfully!",
       data: null,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message ||"User not found",
       error: {
         code: 404,
-        description: "User not found!"
+        description: error.details ||"User not found!"
     }
     });
   }
@@ -122,13 +123,13 @@ const addProduct = async (req: Request, res: Response) => {
       message: "Order created successfully!",
       data: null,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message:error.message|| "User not found",
       error: {
         code: 404,
-        description: "User not found!"
+        description: error.details || "User not found!"
     }
     });
   }
@@ -142,15 +143,17 @@ const userProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Order fetched successfully!",
-      data: result,
+      data: {
+        orders: result,
+      },
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message|| "User not found",
       error: {
         code: 404,
-        description: "User not found!"
+        description: error.details||"User not found!"
     }
     });
   }
@@ -163,18 +166,18 @@ const totalOrderPrice = async (req: Request, res: Response) => {
     const result = await UserService.calculateTotalPrice(userId);
     res.status(200).json({
       success: true,
-      message: "Order fetched successfully!",
+      message: "Total price calculated successfully!",
       data: {
         totalPrice: result,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: error.message||"User not found",
       error: {
         code: 404,
-        description: "User not found!"
+        description:error.details|| "User not found!"
     }
     });
   }
